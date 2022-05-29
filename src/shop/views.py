@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from control.models import Product
+# from control.models import Product
 
 
 # Create your views here.
 def shop(request):
-    products = Product.objects.all()
+    # products = Product.objects.all()
     context = {
-        'products': products
+        # 'products': products
     }
     print(context)
     return render(request, 'shop.html', context)
