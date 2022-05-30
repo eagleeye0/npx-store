@@ -4,3 +4,6 @@ from django.shortcuts import render
 
 def home(request):
     return render(request, 'index.html')
+
+def not_found(request, any):
+    return render(request, '404.html')

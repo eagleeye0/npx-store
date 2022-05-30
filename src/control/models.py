@@ -27,12 +27,13 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=50)
+    password = models.CharField(max_length=200)
     phone = models.CharField(max_length=50)
-    address_line_1 = models.CharField(max_length=50)
-    address_line_2 = models.CharField(max_length=50)
-    city = models.CharField(max_length=50)
-    state = models.CharField(max_length=50)
-    pincode = models.CharField(max_length=50)
+    bill_address_line_1 = models.CharField(max_length=50)
+    bill_address_line_2 = models.CharField(max_length=50)
+    bill_city = models.CharField(max_length=50)
+    bill_state = models.CharField(max_length=50)
+    bill_pincode = models.CharField(max_length=50)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
@@ -41,21 +42,25 @@ class Customer(models.Model):
         db_table = "customer"
 
 
-# class Seller(models.Model):
-#     name = models.CharField(max_length=50)
-#     email = models.EmailField(max_length=50)
-#     password_hash = models.CharField(max_length=100)
-#     profile_photo = models.ImageField(upload_to='photos/sellers')
+class Seller(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
+    password = models.CharField(max_length=100)
+    # profile_photo = models.ImageField(upload_to='photos/sellers')
 
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
 
+    class Meta:
+        db_table = 'seller'
 
 class Product(models.Model):
     product_name = models.CharField(max_length=50)
     mrp_price = models.FloatField()
     sale_price = models.FloatField()
     stock = models.IntegerField()
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.product_name
