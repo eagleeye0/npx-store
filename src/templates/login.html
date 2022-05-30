@@ -1,46 +1,59 @@
 {% extends 'includes/base.html' %}
-
 {% load static %}
-
 {% block content %}
- <!-- Cart view section -->
- <section id="aa-myaccount">
-   <div class="container">
-     <div class="row">
-       <div class="col-md-12">
-        <div class="aa-myaccount-area">         
+  <!-- Cart view section -->
+  <section id="aa-myaccount">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-myaccount-area">
             <div class="row">
               <div class="col-md-6">
                 <div class="aa-myaccount-login">
-                <h4>Login</h4>
-                 <form method="POST" action="/login/" class="aa-login-form">{% csrf_token %}
-                  <label for="">Email address<span>*</span></label>
-                   <input name="email" type="text" placeholder="Email">
-                   <label for="">Password<span>*</span></label>
+                  <h4>Login</h4>
+                  <form method="POST" action="/login/" class="aa-login-form">
+                    {% csrf_token %}
+                    <label for="">
+                      Email address<span>*</span>
+                    </label>
+                    <input name="email" type="text" placeholder="Email">
+                    <label for="">
+                      Password<span>*</span>
+                    </label>
                     <input name="password" type="password" placeholder="Password">
                     <button type="submit" class="aa-browse-btn">Login</button>
-                    <label class="rememberme" for="rememberme"><input type="checkbox" id="rememberme"> Remember me </label>
-                    <p class="aa-lost-password"><a href="#">Lost your password?</a></p>
+                    <label class="rememberme" for="rememberme">
+                      <input type="checkbox" id="rememberme">
+                      Remember me
+                    </label>
+                    <p class="aa-lost-password">
+                      <a href="#">Lost your password?</a>
+                    </p>
                   </form>
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="aa-myaccount-register">                 
-                 <h4>Register</h4>
-                 <form method="post" action="/register/" class="aa-login-form">{% csrf_token %}
-                    <label name="email" for="">Username or Email address<span>*</span></label>
+                <div class="aa-myaccount-register">
+                  <h4>Register</h4>
+                  <form method="post" action="/register/" class="aa-login-form">
+                    {% csrf_token %}
+                    <label name="email" for="">
+                      Username or Email address<span>*</span>
+                    </label>
                     <input type="text" placeholder="Username or email">
-                    <label for="">Password<span>*</span></label>
+                    <label for="">
+                      Password<span>*</span>
+                    </label>
                     <input name="password" type="password" placeholder="Password">
-                    <button type="submit" class="aa-browse-btn">Register</button>                    
+                    <button type="submit" class="aa-browse-btn">Register</button>
                   </form>
                 </div>
               </div>
-            </div>          
-         </div>
-       </div>
-     </div>
-   </div>
- </section>
- <!-- / Cart view section -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- / Cart view section -->
 {% endblock %}
