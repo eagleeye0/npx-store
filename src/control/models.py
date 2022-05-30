@@ -36,7 +36,7 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
-    
+
     class Meta:
         db_table = "customer"
 
@@ -51,15 +51,17 @@ class Customer(models.Model):
 #         return self.name
 
 
-# class Product(models.Model):
-#     product_name = models.CharField(max_length=50)
-#     url_slug = models.SlugField(max_length=20)
-#     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
-#     status = models.CharField(max_length=50)
-#     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+class Product(models.Model):
+    product_name = models.CharField(max_length=50)
+    mrp_price = models.FloatField()
+    sale_price = models.FloatField()
+    stock = models.IntegerField()
 
-#     def __str__(self):
-#         return self.product_name
+    def __str__(self):
+        return self.product_name
+
+    class Meta:
+        db_table = 'product'
 
 
 # class Order(models.Model):

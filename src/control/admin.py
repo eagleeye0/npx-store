@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # from control.models import Category, Order, ParentCategory, Product, Photo, Seller
-from control.models import Customer
+from control.models import Customer, Product
 
 # # Register your models here.
 
@@ -27,7 +27,7 @@ from control.models import Customer
 admin.site.register(Customer)
 # admin.site.register(ParentCategory, ParentCategoryAdmin)
 # admin.site.register(Category, CategoryAdmin)
-# admin.site.register(Product, ProductsAdmin)
+admin.site.register(Product)
 # admin.site.register(Photo, PhotoAdmin)
 # admin.site.register(Seller)
 # admin.site.register(Order)

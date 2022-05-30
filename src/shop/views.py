@@ -8,5 +8,8 @@ def shop(request):
     context = {
         # 'products': products
     }
-    print(context)
     return render(request, 'shop.html', context)
+
+def product(request, product_id):
+    print(product_id)
+    return render(request, 'product.html')
