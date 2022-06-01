@@ -1,6 +1,7 @@
+from math import prod
 from django.shortcuts import redirect, render
 from . import apis
-# from control.models import Product
+from control.models import Product
 
 
 def home(request):
@@ -9,17 +10,19 @@ def home(request):
 
 def shop(request):
     # import ipdb; ipdb.set_trace()
-    # products = Product.objects.all()
+    products = Product.objects.all()
     context = {}
-    context = context | apis.get_header_detail(request)
+    context = context | apis.get_header_detail(request) | {'products': products}
     response = render(request, 'shop.html', context)
     # response.set_cookie("token", "verygoodtoken")
     return response
 
 
 def product(request, product_id):
-    print(product_id)
-    return render(request, 'product.html')
+    # print(product_id)
+    product = Product.objects.filter(id=product_id).first()
+    context = {'product': product}
+    return render(request, 'product.html', context)
 
 
 def cart(request):
@@ -52,7 +55,7 @@ def register(request):
         context = {
             'register_error': request.GET.get('register_error')
         }
-        return render(request, 'login.html', context)
+        return render(request, 'register.html', context)
 
     if request.method == 'POST':
         error = None

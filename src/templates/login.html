@@ -1,73 +1,26 @@
 {% extends 'includes/base.html' %}
 {% load static %}
 {% block content %}
-  <!-- Cart view section -->
-  <section id="aa-myaccount">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="aa-myaccount-area">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="aa-myaccount-login">
-                  <h4>Login</h4>
-                  <form method="POST" action="/login/" class="aa-login-form">
-                    {% csrf_token %}
-                    <label for="">
-                      Email address<span>*</span>
-                    </label>
-                    <input name="email" type="text" placeholder="Email">
-                    <label for="">
-                      Password<span>*</span>
-                    </label>
-                    <input name="password" type="password" placeholder="Password">
-                    {% if login_error %}<div class="alert alert-danger">{{ login_error }}</div>{% endif %}
-                    <button type="submit" class="aa-browse-btn">Login</button>
-                    <label class="rememberme" for="rememberme">
-                      <input type="checkbox" id="rememberme">
-                      Remember me
-                    </label>
-                    <p class="aa-lost-password">
-                      <a href="#">Lost your password?</a>
-                    </p>
-                  </form>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="aa-myaccount-register">
-                  <h4>Register</h4>
-                  <form method="post" action="/register/" class="aa-login-form">
-                    {% csrf_token %}
-                    <label for="">
-                      First Name<span>*</span>
-                    </label>
-                    <input name="first_name" type="text" placeholder="John">
-                    <label for="">
-                      Last Name<span>*</span>
-                    </label>
-                    <input name="last_name" type="text" placeholder="Doe">
-                    <label for="">
-                      Phone Number<span>*</span>
-                    </label>
-                    <input name="phone" type="text" placeholder="+91 9999 444 555">
-                    <label for="">
-                      Username or Email address<span>*</span>
-                    </label>
-                    <input name="email" type="text" placeholder="Username or email">
-                    <label for="">
-                      Password<span>*</span>
-                    </label>
-                    <input name="password" type="password" placeholder="Password">
-                    {% if register_error %}<div class="alert alert-danger">{{ register_error }}</div>{% endif %}
-                    <button type="submit" class="aa-browse-btn">Register</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <h4>Login</h4>
+  <form method="POST" action="/login/" class="aa-login-form">
+    {% csrf_token %}
+    <label for="">
+      Email address<span>*</span>
+    </label>
+    <input name="email" type="text" placeholder="Email">
+    <label for="">
+      Password<span>*</span>
+    </label>
+    <input name="password" type="password" placeholder="Password">
+    {% if login_error %}<div class="alert alert-danger">{{ login_error }}</div>{% endif %}
+    <button type="submit" class="aa-browse-btn">Login</button>
+    <label class="rememberme" for="rememberme">
+      <input type="checkbox" id="rememberme">
+      Remember me
+    </label>
+    <p class="aa-lost-password">
+      <a href="#">Lost your password?</a>
+    </p>
+  </form>
   <!-- / Cart view section -->
 {% endblock %}
