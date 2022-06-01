@@ -83,9 +83,11 @@
             <!-- / header top left -->
             <div class="aa-header-top-right">
               <ul class="aa-head-top-nav-right">
+                {% if is_login %}
                 <li>
                   <a href="account.html">My Account</a>
                 </li>
+                {% endif %}
                 <li class="hidden-xs">
                   <a href="wishlist.html">Wishlist</a>
                 </li>
@@ -130,7 +132,7 @@
               <a class="aa-cart-link" href="#">
                 <span class="fa fa-shopping-basket"></span>
                 <span class="aa-cart-title">SHOPPING CART</span>
-                <span class="aa-cart-notify">2</span>
+                <span class="aa-cart-notify">{{ cart_items_number }}</span>
               </a>
               <div class="aa-cartbox-summary">
                 <ul>

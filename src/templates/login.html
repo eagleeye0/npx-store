@@ -21,6 +21,7 @@
                       Password<span>*</span>
                     </label>
                     <input name="password" type="password" placeholder="Password">
+                    {% if login_error %}<div class="alert alert-danger">{{ login_error }}</div>{% endif %}
                     <button type="submit" class="aa-browse-btn">Login</button>
                     <label class="rememberme" for="rememberme">
                       <input type="checkbox" id="rememberme">
@@ -37,14 +38,27 @@
                   <h4>Register</h4>
                   <form method="post" action="/register/" class="aa-login-form">
                     {% csrf_token %}
-                    <label name="email" for="">
+                    <label for="">
+                      First Name<span>*</span>
+                    </label>
+                    <input name="first_name" type="text" placeholder="John">
+                    <label for="">
+                      Last Name<span>*</span>
+                    </label>
+                    <input name="last_name" type="text" placeholder="Doe">
+                    <label for="">
+                      Phone Number<span>*</span>
+                    </label>
+                    <input name="phone" type="text" placeholder="+91 9999 444 555">
+                    <label for="">
                       Username or Email address<span>*</span>
                     </label>
-                    <input type="text" placeholder="Username or email">
+                    <input name="email" type="text" placeholder="Username or email">
                     <label for="">
                       Password<span>*</span>
                     </label>
                     <input name="password" type="password" placeholder="Password">
+                    {% if register_error %}<div class="alert alert-danger">{{ register_error }}</div>{% endif %}
                     <button type="submit" class="aa-browse-btn">Register</button>
                   </form>
                 </div>
