@@ -24,6 +24,7 @@
           <td>{{ item.total }}</td>
           <td>
             <a href="/add-to-cart/?product_id={{ item.product.id }}&quantity=-1" class="btn btn-primary">Remove</a>
+            <a href="/add-to-cart/?product_id={{ item.product.id }}&quantity=1" class="btn btn-primary">Add</a>
             <a href="/add-to-cart/?product_id={{ item.product.id }}&quantity=0" class="btn btn-primary">Delete</a>
           </td>
         </tr>

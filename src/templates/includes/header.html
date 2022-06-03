@@ -7,7 +7,6 @@
 <header id="aa-header">
   <!-- start header top  -->
   <h3>
-    Header
     <h3>
       <div class="aa-header-top">
         <div class="container">
@@ -18,35 +17,54 @@
                 <div class="aa-header-top-right">
                   <ul class="aa-head-top-nav-right">
                     <li>
+                      <a href="/account">Welcome
+                        {% if is_login %}
+                          {{ username }}
+                        {% else %}
+                          Guest
+                        {% endif %}
+                      </a>
+                    </a>
+                  </li>
+                  {% if is_login %}
+                    <li>
                       <a href="/account">My Account</a>
                     </li>
-                    <li class="hidden-xs">
-                      <a href="/cart">My Cart - {{ cart_items_number }}</a>
-                    </li>
-                    <li class="hidden-xs">
-                      <a href="/checkout">Checkout</a>
-                    </li>
+                  {% endif %}
+                  <li class="hidden-xs">
+                    <a href="/cart">My Cart - {{ cart_items_number|default_if_none:0 }}</a>
+                  </li>
+                  <li class="hidden-xs">
+                    <a href="/checkout">Checkout</a>
+                  </li>
+                  {% if not is_login %}
                     <li>
                       <a href="/login">Login</a>
                     </li>
                     <li>
                       <a href="/register">Register</a>
                     </li>
+                  {% endif %}
+                  <li>
+                    <a href="/shop">shop</a>
+                  </li>
+                  <li>
+                    <a href="/">home</a>
+                  </li>
+                  {% if is_login %}
                     <li>
-                      <a href="/shop">shop</a>
+                      <a href="/logout">Logout</a>
                     </li>
-                    <li>
-                      <a href="/">home</a>
-                    </li>
-                  </ul>
-                </div>
+                  {% endif %}
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- / header top  -->
-      <!-- start header bottom  -->
-      <!-- / header bottom  -->
-    </header>
-    <!-- / menu -->
+    </div>
+    <!-- / header top  -->
+    <!-- start header bottom  -->
+    <!-- / header bottom  -->
+  </header>
+  <!-- / menu -->
