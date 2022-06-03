@@ -89,8 +89,11 @@ class Product(models.Model):
 #         return self.product.product_name
 
 class Cart(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     price = models.FloatField()
+    session_id = models.CharField(max_length=50, null=True)
 
+    class Meta:
+        db_table = 'cart'

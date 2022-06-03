@@ -5,7 +5,7 @@
     <!-- start single product item -->
     {% for product in products %}
       <li>
-        <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+        <a class="aa-add-card-btn"href="/add-to-cart/{{ product.id }}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
         <h4 class="aa-product-title">
           <a href="/product/{{ product.id }}">{{ product.product_name }}</a>
         </h4>

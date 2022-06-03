@@ -9,5 +9,7 @@ id = {{ product.id }}
 price = {{ product.sale_price }}
 <br>
 stock = {{ product.stock }}
+<br>
+<a class="btn btn-primary" href="/add-to-cart/?product_id={{product.id}}&quantity=1">Add to cart</a>
 
 {% endblock %}

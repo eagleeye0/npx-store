@@ -1,33 +1,26 @@
-from math import prod
 from django.shortcuts import redirect, render
+
+from shop import auth
 from . import apis
 from control.models import Product
+import json
+
 
 
 def home(request):
     return render(request, 'index.html')
 
-
 def shop(request):
-    # import ipdb; ipdb.set_trace()
     products = Product.objects.all()
     context = {}
-    context = context | apis.get_header_detail(request) | {'products': products}
+    context = context | {'products': products}
     response = render(request, 'shop.html', context)
-    # response.set_cookie("token", "verygoodtoken")
     return response
 
-
 def product(request, product_id):
-    # print(product_id)
-    product = Product.objects.filter(id=product_id).first()
+    product = Product.objects.get(id=product_id)
     context = {'product': product}
     return render(request, 'product.html', context)
-
-
-def cart(request):
-    return render(request, 'cart.html')
-
 
 def login(request):
     if request.method == 'GET':
@@ -38,16 +31,18 @@ def login(request):
 
     if request.method == 'POST':
         error = None
-        login_user = apis.login_user(request)
+        login_user = auth.login_user(request)
+
         if(login_user.get('error')):
+            # error while logging in
             error = login_user.get('error')
+            return redirect('/login?login_error=' + error)
+
         else:
+            # logged in successfully
             response = redirect('/shop')
             response.set_cookie('token', login_user.get('token'))
-
-        if error:
-            response = redirect('/login?login_error=' + error)
-        return response
+            return response
 
 
 def register(request):
@@ -59,18 +54,17 @@ def register(request):
 
     if request.method == 'POST':
         error = None
-        register_user = apis.register_user(request)
+        register_user = auth.register_user(request)
+
         if(register_user.get('error')):
             error = register_user.get('error')
+            return redirect('/register?register_error=' + error)
+
         else:
-            login_user = apis.login_user(request)
-            if(login_user.get('error')):
-                error = login_user.get('error')
-            else:
-                response = redirect('/shop')
-                response.set_cookie('token', login_user.get('token'))
+            response = redirect('/shop')
+            response.set_cookie('token', login_user.get('token'))
 
-        if error:
-            response = redirect('/register?register_error=' + error)
-        return response
-
+def logout(request):
+    response = redirect('/login')
+    response.delete_cookie('token')
+    return response
