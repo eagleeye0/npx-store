@@ -24,6 +24,7 @@
       Password<span>*</span>
     </label>
     <input name="password" type="password" placeholder="Password">
+    {{ form.as_p }}
     {% if register_error %}<div class="alert alert-danger">{{ register_error }}</div>{% endif %}
     <button type="submit" class="aa-browse-btn">Register</button>
   </form>

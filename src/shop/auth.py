@@ -1,8 +1,22 @@
+from datetime import datetime, timedelta, timezone
+from django import forms
 from django.shortcuts import redirect, render
 from control.models import Customer
 import jwt
+from django.contrib.auth.hashers import make_password, check_password
+from credentials import JWT_SECRET
 
-SECRET_KEY = 'abcd_secret'
+from django import forms
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
+
+
+SECRET_KEY = JWT_SECRET
+
+
+class ContactForm(forms.Form):
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+
 
 def is_login(request):
     token = request.COOKIES.get('token')
@@ -12,9 +26,10 @@ def is_login(request):
     try:
         jwt.decode(token, 'secret', algorithms=['HS256'])
     except Exception:
-        return False   
+        return False
 
     return True
+
 
 def get_username(request):
     token = request.COOKIES.get('token')
@@ -24,10 +39,11 @@ def get_username(request):
     try:
         jwt.decode(token, 'secret', algorithms=['HS256'])
     except Exception:
-        return None   
+        return None
 
     email = jwt.decode(token, 'secret', algorithms=['HS256'])['email']
     return Customer.objects.filter(email=email).first().first_name
+
 
 def authenticate(request):
     token = request.COOKIES.get('token')
@@ -37,9 +53,10 @@ def authenticate(request):
     try:
         jwt.decode(token, 'secret', algorithms=['HS256'])
     except Exception:
-        return False   
+        return False
 
     return True
+
 
 def login_user(request):
     # import ipdb; ipdb.set_trace()
@@ -49,19 +66,26 @@ def login_user(request):
     if not customer:
         return {'error': 'User does not exist'}
 
-    if customer.password == password:
-        token = jwt.encode({'email': email}, 'secret', algorithm='HS256')
+    if check_password(password, customer.password):
+        token = jwt.encode({'email': email, 'exp': datetime.now(
+            tz=timezone.utc) + timedelta(days=7)}, 'secret', algorithm='HS256')
         return {'token': token}
 
     return {'error': 'Invalid credentials'}
 
 
 def register_user(request):
+    # import ipdb; ipdb.set_trace()
     email = request.POST.get('email')
     password = request.POST.get('password')
     first_name = request.POST.get('first_name')
     last_name = request.POST.get('last_name')
-    
+    hashed_pwd = make_password(password)
+
+    form = ContactForm(request.POST)
+    if not form.is_valid():
+        return {'error': 'Invalid captcha'}
+
     customer = Customer.objects.filter(email=email)
     if customer:
         return {'error': 'User already exists'}
@@ -70,12 +94,11 @@ def register_user(request):
         first_name=first_name,
         last_name=last_name,
         email=email,
-        password=password,
+        password=hashed_pwd,
     )
     customer.save()
 
     return login_user(request)
-
 
 
 def login(request):
@@ -104,22 +127,24 @@ def login(request):
 def register(request):
     if request.method == 'GET':
         context = {
-            'register_error': request.GET.get('register_error')
+            'register_error': request.GET.get('register_error'),
+            'form': ContactForm()
         }
         return render(request, 'register.html', context)
 
     if request.method == 'POST':
         error = None
-        register_user = register_user(request)
+        auth_register = register_user(request)
 
-        if(register_user.get('error')):
-            error = register_user.get('error')
+        if(auth_register.get('error')):
+            error = auth_register.get('error')
             return redirect('/register?register_error=' + error)
 
         else:
             response = redirect('/shop')
-            response.set_cookie('token', register_user.get('token'))
+            response.set_cookie('token', auth_register.get('token'))
             return response
+
 
 def logout(request):
     response = redirect('/login')

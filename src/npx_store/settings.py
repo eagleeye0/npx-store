@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+from credentials import CAPTCHA_SECRET_KEY, CAPTCHA_SITE_KEY
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure--((rjr2ex1ulkj=ayc9#q)#aic^0@plczk4ug$zexjz!+!6*o%'
-
+RECAPTCHA_PUBLIC_KEY = CAPTCHA_SITE_KEY
+RECAPTCHA_PRIVATE_KEY = CAPTCHA_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'control',
     'shop',
+    'captcha',
 ]
 
 MIDDLEWARE = [
