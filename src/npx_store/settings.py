@@ -26,9 +26,9 @@ SECRET_KEY = 'django-insecure--((rjr2ex1ulkj=ayc9#q)#aic^0@plczk4ug$zexjz!+!6*o%
 RECAPTCHA_PUBLIC_KEY = CAPTCHA_SITE_KEY
 RECAPTCHA_PRIVATE_KEY = CAPTCHA_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

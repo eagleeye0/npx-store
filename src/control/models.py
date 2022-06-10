@@ -34,6 +34,7 @@ class Customer(models.Model):
     bill_city = models.CharField(max_length=50)
     bill_state = models.CharField(max_length=50)
     bill_pincode = models.CharField(max_length=50)
+    reset_otp = models.CharField(max_length=10)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name

@@ -1,24 +1,21 @@
-from django.shortcuts import redirect, render
+from django.http import HttpResponse, JsonResponse
 
-from shop import auth
-from . import apis
 from control.models import Product
-import json
 
 
 def home(request):
-    return render(request, 'index.html')
+    return HttpResponse('Connected')
 
 
-def shop(request):
+def all_products(request):
     products = Product.objects.all()
-    context = {}
-    context = context | {'products': products}
-    response = render(request, 'shop.html', context)
+    product_list_dict = [product for product in products.values()]
+    response = JsonResponse({'products': product_list_dict})
     return response
 
 
 def product(request, product_id):
-    product = Product.objects.get(id=product_id)
-    context = {'product': product}
-    return render(request, 'product.html', context)
+    product_dict = Product.objects.get(id=product_id).__dict__
+    return_dict = {your_key: product_dict[your_key] for your_key in [
+        'id', 'product_name', 'mrp_price', 'sale_price']}
+    return JsonResponse(return_dict)

@@ -12,6 +12,9 @@ media
 # virtual environment #
 npx_venv
 
+# credentials #
+credentials.py
+
 # If you are using PyCharm # 
 # User-specific stuff
 .idea/**/workspace.xml
