@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--((rjr2ex1ulkj=ayc9#q)#aic^0@plczk4ug$zexjz!+!6*o%
 RECAPTCHA_PUBLIC_KEY = CAPTCHA_SITE_KEY
 RECAPTCHA_PRIVATE_KEY = CAPTCHA_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 

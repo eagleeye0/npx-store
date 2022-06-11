@@ -12,9 +12,18 @@ from django import forms
 
 SECRET_KEY = JWT_SECRET
 
+def authenticate_token(token):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        return payload['id']
+    except jwt.ExpiredSignatureError:
+        return None
+    except jwt.InvalidTokenError:
+        return None
 
 class Login(TemplateView):
     def post(self, request):
+        # import ipdb; ipdb.set_trace()
         email = request.POST.get('email')
         password = request.POST.get('password')
 
@@ -27,9 +36,13 @@ class Login(TemplateView):
             return HttpResponseBadRequest('User does not exist')
 
         if check_password(password, customer.password):
-            token = jwt.encode({'email': email, 'exp': datetime.now(
-                tz=timezone.utc) + timedelta(days=7)}, 'secret', algorithm='HS256')
-            response = HttpResponse('Success')
+            # import ipdb; ipdb.set_trace()
+            token = jwt.encode({'email': email, 'id': customer.id, 'exp': datetime.now(
+                tz=timezone.utc) + timedelta(days=7)}, SECRET_KEY, algorithm='HS256')
+            customer_dict = customer.__dict__
+            return_dict = {key: customer_dict[key] for key in [
+                'id', 'email']}
+            response = JsonResponse({'user': return_dict})
             response.set_cookie('jwttoken', token,
                                 max_age=60 * 60 * 24 * 7, httponly=True)
             return response
@@ -61,6 +74,17 @@ class Register(TemplateView):
         customer.save()
         return HttpResponse('Success')
 
+def me(request):
+    # import ipdb; ipdb.set_trace()
+    if request.method == "GET":
+        user_id = authenticate_token(request.COOKIES.get('jwttoken'))
+        if not user_id:
+            return HttpResponseBadRequest('Invalid token')
+
+        customer = Customer.objects.get(id=user_id).__dict__
+        return_dict = {your_key: customer[your_key] for your_key in [
+            'id', 'first_name', 'last_name', 'email']}
+        return JsonResponse(return_dict)
 
 class Logout(TemplateView):
     def get(self, request):

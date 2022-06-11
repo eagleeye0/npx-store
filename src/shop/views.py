@@ -16,6 +16,6 @@ def all_products(request):
 
 def product(request, product_id):
     product_dict = Product.objects.get(id=product_id).__dict__
-    return_dict = {your_key: product_dict[your_key] for your_key in [
+    return_dict = {key: product_dict[key] for key in [
         'id', 'product_name', 'mrp_price', 'sale_price']}
     return JsonResponse(return_dict)

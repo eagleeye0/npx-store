@@ -15,6 +15,7 @@ urlpatterns = [
     # path('add-to-cart/', cart.add_to_cart, name='add-to-cart'),
     
     path('apiv1/login/', auth.Login.as_view(), name='login'),
+    path('apiv1/me/', auth.me, name='me'),
     path('apiv1/register/', auth.Register.as_view(), name='register'),
     path('apiv1/logout/', auth.Logout.as_view(), name='logout'),
     path('apiv1/reset_password_request/', auth.reset_password_request, name='reset_password_request'),
