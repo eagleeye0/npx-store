@@ -13,4 +13,9 @@ services:
       "
     ports:
       - "8000:8000"
-    
+    networks:
+      - network1
+
+networks:
+  network1:
+    name: npx-api-network
