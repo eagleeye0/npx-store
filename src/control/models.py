@@ -1,27 +1,7 @@
+from pyexpat import model
 from django.db import models
 
 # Create your models here.
-
-
-# class ParentCategory(models.Model):
-#     name = models.CharField(max_length=50)
-
-#     def __str__(self):
-#         return self.name
-
-
-# class Category(models.Model):
-#     category_name = models.CharField(max_length=50)
-#     url_slug = models.SlugField(max_length=20)
-#     default_photo = models.ImageField(
-#         upload_to='photos/categories', blank=True)
-#     description = models.CharField(max_length=200)
-#     parent_category = models.ForeignKey(
-#         ParentCategory, on_delete=models.RESTRICT)
-
-#     def __str__(self):
-#         return self.category_name
-
 
 class Customer(models.Model):
     first_name = models.CharField(max_length=50)
@@ -98,3 +78,11 @@ class Cart(models.Model):
 
     class Meta:
         db_table = 'cart'
+
+
+class SubscibeList(models.Model):
+    email = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    
+    class Meta:
+        db_table = 'subscribe_list'

@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: python-django:latest
+    container_name: api
+    command: > 
+      /bin/bash -c "
+      python manage.py runserver 0:8000
+      "
+    ports:
+      - "8000:8000"
+    

@@ -14,6 +14,8 @@ urlpatterns = [
     # path('checkout/', cart.checkout, name='checkout'),
     # path('add-to-cart/', cart.add_to_cart, name='add-to-cart'),
     
+    path('apiv1/subscribe/', views.subscribe, name='subscribe'),
+    
     path('apiv1/login/', auth.Login.as_view(), name='login'),
     path('apiv1/me/', auth.me, name='me'),
     path('apiv1/register/', auth.Register.as_view(), name='register'),
