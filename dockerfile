@@ -8,6 +8,6 @@ WORKDIR /app
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-COPY src /app/
+ADD src /app/
 
 CMD [ "python3", "manage.py", "runserver", "0.0.0.0:8000"]
