@@ -13,7 +13,6 @@ def add_to_cart(request):
     product_id = request.GET['product_id']
     quantity = int(request.GET['quantity'])
     if auth.is_login(request):
-        # import ipdb; ipdb.set_trace()
         email = auth.get_email(request)
         customer_id = Customer.objects.get(email=email).id
         try:
@@ -31,7 +30,6 @@ def add_to_cart(request):
 
     else:
         session_id = _session_id(request)
-        # import ipdb;ipdb.set_trace()
         try:
             cart_item = Cart.objects.get(session_id=session_id,product_id=product_id)
             if quantity == 0 or cart_item.quantity + quantity <= 0:

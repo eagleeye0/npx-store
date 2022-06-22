@@ -12,8 +12,6 @@ def home(request):
 
 def all_products(request):
     if request.method == 'POST':
-        # import ipdb
-        # ipdb.set_trace()
         page_number = int(request.POST.get('page_number') or 1)
         page_size = int(request.POST.get('page_size') or 10**8)
         product_count = Product.objects.count()

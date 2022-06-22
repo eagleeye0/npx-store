@@ -3,17 +3,12 @@ from django.db import models
 
 # Create your models here.
 
+
 class Customer(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=50)
     password = models.CharField(max_length=200)
-    phone = models.CharField(max_length=50)
-    bill_address_line_1 = models.CharField(max_length=50)
-    bill_address_line_2 = models.CharField(max_length=50)
-    bill_city = models.CharField(max_length=50)
-    bill_state = models.CharField(max_length=50)
-    bill_pincode = models.CharField(max_length=50)
     reset_otp = models.CharField(max_length=10)
 
     def __str__(self):
@@ -35,6 +30,7 @@ class Seller(models.Model):
 
     class Meta:
         db_table = 'seller'
+
 
 class Product(models.Model):
     product_name = models.CharField(max_length=50)
@@ -80,9 +76,23 @@ class Cart(models.Model):
         db_table = 'cart'
 
 
+class CustomerAddress(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    address_line_1 = models.CharField(max_length=100)
+    address_line_2 = models.CharField(max_length=100)
+    city = models.CharField(max_length=20)
+    state = models.CharField(max_length=20)
+    pincode = models.CharField(max_length=20)
+    address_type = models.CharField(max_length=30, choices=[(
+        'billing', 'billing'), ('shipping', 'shipping')])
+
+    class Meta:
+        db_table = 'customer_address'
+
+
 class SubscibeList(models.Model):
     email = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
-    
+
     class Meta:
         db_table = 'subscribe_list'

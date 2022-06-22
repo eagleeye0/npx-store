@@ -1,4 +1,7 @@
+from cmath import log
 from datetime import datetime, timedelta, timezone
+from functools import wraps
+from lib2to3.pgen2 import token
 import math
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
 from control.models import Cart, Customer
@@ -12,6 +15,7 @@ from django import forms
 
 SECRET_KEY = JWT_SECRET
 
+
 def authenticate_token(token):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
@@ -21,9 +25,20 @@ def authenticate_token(token):
     except jwt.InvalidTokenError:
         return None
 
+
+def token_required(f):
+    @wraps(f)
+    def decorator(request, *args, **kwargs):
+        user_id = authenticate_token(request.COOKIES.get('jwttoken'))
+        if not user_id:
+            return HttpResponseForbidden('Invalid token')
+
+        return f(request, user_id, *args, **kwargs)
+    return decorator
+
+
 class Login(TemplateView):
     def post(self, request):
-        # import ipdb; ipdb.set_trace()
         email = request.POST.get('email')
         password = request.POST.get('password')
 
@@ -36,7 +51,6 @@ class Login(TemplateView):
             return HttpResponseBadRequest('User does not exist')
 
         if check_password(password, customer.password):
-            # import ipdb; ipdb.set_trace()
             token = jwt.encode({'email': email, 'id': customer.id, 'exp': datetime.now(
                 tz=timezone.utc) + timedelta(days=7)}, SECRET_KEY, algorithm='HS256')
             customer_dict = customer.__dict__
@@ -74,33 +88,21 @@ class Register(TemplateView):
         customer.save()
         return HttpResponse('Success')
 
-def me(request):
-    # import ipdb; ipdb.set_trace()
-    if request.method == "GET":
-        user_id = authenticate_token(request.COOKIES.get('jwttoken'))
-        if not user_id:
-            return HttpResponseBadRequest('Invalid token')
 
+@token_required
+def me(request, user_id):
+    if request.method == "GET":
         customer = Customer.objects.get(id=user_id).__dict__
         return_dict = {your_key: customer[your_key] for your_key in [
             'id', 'first_name', 'last_name', 'email']}
         return JsonResponse(return_dict)
+
 
 class Logout(TemplateView):
     def get(self, request):
         response = HttpResponse('Success')
         response.delete_cookie('jwttoken')
         return response
-
-
-def get_customer(request, customer_id):
-    if request.method == "GET":
-        customer = Customer.objects.get(id=customer_id).__dict__
-        return_dict = {your_key: customer[your_key] for your_key in [
-            'id', 'first_name', 'last_name', 'email']}
-        return JsonResponse(return_dict)
-
-    return HttpResponseBadRequest('method not allowed')
 
 
 def generateOTP():
@@ -126,6 +128,7 @@ def reset_password_request(request):
 
         otp = generateOTP()
         customer.reset_otp = otp
+        # send otp to email
         customer.save()
         return HttpResponse('Success')
 
@@ -133,7 +136,6 @@ def reset_password_request(request):
 
 
 def reset_password_using_otp(request):
-    # import ipdb; ipdb.set_trace()
     if request.method == "POST":
         email = request.POST.get('email')
         otp = request.POST.get('otp')
@@ -156,6 +158,7 @@ def reset_password_using_otp(request):
     return HttpResponseBadRequest('method not allowed')
 
 
+@token_required
 def update_password(request):
     if request.method == "POST":
         email = request.POST.get('email')
