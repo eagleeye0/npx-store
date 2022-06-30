@@ -7,7 +7,7 @@ from control.models import Product, SubscibeList
 
 
 def home(request):
-    return HttpResponse('Connected 2')
+    return HttpResponse('Connected')
 
 
 def all_products(request):

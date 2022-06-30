@@ -17,9 +17,8 @@ urlpatterns = [
     path('apiv1/get_addresses/', address.get_addresses, name='address'),
     
     # cart
-    # path('cart/', cart.cart, name='cart'),
-    # path('checkout/', cart.checkout, name='checkout'),
-    # path('add-to-cart/', cart.add_to_cart, name='add-to-cart'),
+    path('apiv1/get-cart-items/', cart.get_cart_items, name='cart'),
+    path('apiv1/update-cart/<int:product_id>/<int:quantity>', cart.update_cart, name='add-to-cart'),
     
     # subscribe list
     path('apiv1/subscribe/', views.subscribe, name='subscribe'),

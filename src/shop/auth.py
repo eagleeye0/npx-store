@@ -87,7 +87,7 @@ class Register(TemplateView):
         )
         customer.save()
         return HttpResponse('Success')
-
+    
 
 @token_required
 def me(request, user_id):
