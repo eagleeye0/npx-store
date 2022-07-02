@@ -40,6 +40,6 @@ def subscribe(request):
     if email and name:
         subscriber = SubscibeList.objects.create(email=email, name=name)
         subscriber.save()
-        return HttpResponse("Success")
+        return HttpResponse("success")
 
     return HttpResponseBadRequest('Missing field')

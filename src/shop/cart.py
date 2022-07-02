@@ -25,14 +25,24 @@ def update_cart(request, user_id, product_id, quantity):
         if quantity > 0:
             Cart.objects.create(customer_id=user_id, product_id=product_id, quantity=quantity)
 
-    return HttpResponse("Success")
+    return HttpResponse("success")
 
 
 @token_required
 def get_cart_items(request, user_id):
     cart_items = Cart.objects.filter(customer_id=user_id)
-    cart_items_list_dict = [cart_item for cart_item in cart_items.values()]
+    cart_items_list_dict = []
+
+    for cart_item in cart_items.values():
+        item = {}
+        item['product_id'] = cart_item['product_id']
+        # item['price'] = cart_item['price']
+        item['quantity'] = cart_item['quantity']
+        # image: data.images[0].url,
+        # stock: data.stock,
+        cart_items_list_dict.append(item)
+
     response = JsonResponse({
-        'products': cart_items_list_dict,
+        'cart_items': cart_items_list_dict,
     })
     return response

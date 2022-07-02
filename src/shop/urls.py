@@ -14,7 +14,9 @@ urlpatterns = [
     path('apiv1/product/<int:product_id>', views.product, name='product'),
     
     # address
-    path('apiv1/get_addresses/', address.get_addresses, name='address'),
+    path('apiv1/get-addresses/', address.get_addresses, name='get_address'),
+    path('apiv1/add-address/', address.add_address, name='add_address'),
+    path('apiv1/delete-address/', address.delete_address, name='delete_address'),
     
     # cart
     path('apiv1/get-cart-items/', cart.get_cart_items, name='cart'),

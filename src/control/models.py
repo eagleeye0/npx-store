@@ -84,7 +84,7 @@ class CustomerAddress(models.Model):
     state = models.CharField(max_length=20)
     pincode = models.CharField(max_length=20)
     address_type = models.CharField(max_length=30, choices=[(
-        'billing', 'billing'), ('shipping', 'shipping')])
+        'home', 'home'), ('office', 'office'), ('other', 'other')])
 
     class Meta:
         db_table = 'customer_address'

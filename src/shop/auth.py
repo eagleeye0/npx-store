@@ -86,7 +86,7 @@ class Register(TemplateView):
             password=hashed_pwd,
         )
         customer.save()
-        return HttpResponse('Success')
+        return HttpResponse('success')
     
 
 @token_required
@@ -100,7 +100,7 @@ def me(request, user_id):
 
 class Logout(TemplateView):
     def get(self, request):
-        response = HttpResponse('Success')
+        response = HttpResponse('success')
         response.delete_cookie('jwttoken')
         return response
 
@@ -130,7 +130,7 @@ def reset_password_request(request):
         customer.reset_otp = otp
         # send otp to email
         customer.save()
-        return HttpResponse('Success')
+        return HttpResponse('success')
 
     return HttpResponseBadRequest('method not allowed')
 
@@ -151,7 +151,7 @@ def reset_password_using_otp(request):
             customer.reset_otp = None
             customer.password = make_password(password)
             customer.save()
-            return HttpResponse('Success')
+            return HttpResponse('success')
 
         return HttpResponseBadRequest('Invalid OTP')
 
@@ -174,6 +174,6 @@ def update_password(request):
         if check_password(password, customer.password):
             customer.password = make_password(new_password)
             customer.save()
-            return HttpResponse('Success')
+            return HttpResponse('success')
 
         return HttpResponseBadRequest('Invalid credentials')
